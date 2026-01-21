@@ -31,11 +31,13 @@ def generate_creative_image(prompt: str, negative_prompt: str, aspect_ratio: str
         config=types.GenerateContentConfig(
         response_modalities=['TEXT','IMAGE'],
         image_config=types.ImageConfig(
-            aspect_ratio=aspect_ratio
+            aspect_ratio=aspect_ratio,
+            resolution=resolution,
             ),
         )
     )
 
+    
     for part in response.parts:
         if part.text is not None:
             print(part.text)

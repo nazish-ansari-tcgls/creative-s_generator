@@ -1,0 +1,48 @@
+{
+  "project_name": "Hiranandani Gardens",
+  "project_link": "https://www.houseofhiranandani.in/",
+  "rera_number": "P52000080098",
+  "tagline": "Creating better communities",
+  "address": "Hiranandani Gardens, Powai, Mumbai, Maharashtra, India",
+  "phone": "+91 82 8962 8738",
+  "social": {
+    "instagram": "https://instagram.com/Hiranandani",
+    "linkedin": "https://linkedin.com/company/Hiranandani"
+  },
+  "project_brief": "Hiranandani Gardens is a 250-acre luxury residential township in Powai, Mumbai. Known for its neoclassical architecture and lush surroundings of hills and lakes, it offers elegant living and exceptional connectivity. The self-contained community features schools, hospitals, hotels, and shopping, creating a holistic lifestyle environment. Abundant amenities and green spaces provide a tranquil oasis of comfort, blending luxurious indoor and outdoor living.",
+  "brand": {
+    "logo_path": "assets/logo/Hiranandani-Gardens-Logo.png",
+    "fonts": {
+      "primary": "Elegant Serif (Neoclassical style)",
+      "secondary": "Helvetica Neue"
+    },
+    "values": [
+      "Trust & Transparency",
+      "Quality & Innovation",
+      "Customer-Centric Approach",
+      "Sustainability",
+      "Community & Well-being"
+    ],
+    "aesthetic": [
+      "Neo-classical",
+      "Elegant",
+      "Nature-inspired",
+      "Serene"
+    ],
+    "colors": {
+      "primary": [
+        "#ED2A28",
+        "#BFBFBF",
+        "#4D4D4D",
+        "#FFFFFF"
+      ],
+      "secondary": [
+        "#4B2DB5",
+        "#9B7BFF",
+        "#6B5BFF",
+        "#E1A34E",
+        "#B28BFF"
+      ]
+    }
+  }
+}

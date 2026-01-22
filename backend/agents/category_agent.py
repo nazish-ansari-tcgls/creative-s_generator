@@ -14,3 +14,6 @@ CATEGORY_STRATEGY = {
 
 def category_agent(poster_category: str):
     return CATEGORY_STRATEGY.get(poster_category, "premium real estate")
+
+def category_agent_info():
+    return CATEGORY_STRATEGY

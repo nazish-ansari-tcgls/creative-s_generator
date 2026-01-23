@@ -13,11 +13,13 @@ def crop_to_aspect_ratio(uploaded_file_path, aspect_ratio: str) -> Image.Image:
 
     width, height = image.size
 
-    if aspect_ratio == "1:1":
+    if aspect_ratio == "1:1" or aspect_ratio == "square":
         target_ratio = 1 / 1
-    elif aspect_ratio == "9:16":
+    elif aspect_ratio == "4:5"  or aspect_ratio == "portrait":
+        target_ratio = 4 / 5
+    elif aspect_ratio == "9:16"  or aspect_ratio == "landscape":
         target_ratio = 9 / 16
-    elif aspect_ratio == "16:9":
+    elif aspect_ratio == "16:9"  or aspect_ratio == "story":
         target_ratio = 16 / 9
     else:
         return image

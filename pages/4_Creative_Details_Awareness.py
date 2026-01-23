@@ -122,16 +122,18 @@ if is_upload:
         label_visibility="collapsed",
     )
     if bg is not None:
-        cropped_img = (crop_to_aspect_ratio(bg, st.session_state["creative"].get("formats"))
-        bg_image_path = (
-        save_pil_image(
-            image=cropped_img,
-            folder="assets/inputs",
-            prefix="bg"
+        cropped_img = crop_to_aspect_ratio(
+            bg,
+            st.session_state["creative"].get("formats")
         )
-        if cropped_img else None
-        )
-    )
+        if cropped_img:
+            bg_image_path = save_pil_image(
+                image=cropped_img,
+                folder="assets/inputs",
+                prefix="bg"
+            )
+        else:
+            bg_image_path = None
         st.session_state["creative"]["bg_file_path"] = bg_image_path
 else:
     # Placeholder: replace with your project pool gallery later

@@ -6,12 +6,12 @@ from backend.agents.synthesizer_agent import synthesizer_agent
 from backend.agents.qa_agent import qa_agent
 from backend.agents.prompt_generation import llm_prompt_generator
 
-def generate_poster_prompt(project, creative):
-    strategy = category_agent(creative.poster_category)
-    messaging = messaging_agent(creative.headline, creative.subline, creative.cta)
+def generate_poster_prompt(project: dict, creative: dict):
+    strategy = category_agent(creative["category"])
+    messaging = creative["headline"]
     visual = visual_agent(
-        creative.poster_category,
-        background_provided=bool(project.background_path)
+        creative["category"],
+        background_provided=bool(creative["bg_file_path"])
     )
     styling = styling_agent()
 
@@ -19,6 +19,6 @@ def generate_poster_prompt(project, creative):
         project, creative, strategy, visual, styling, messaging
     )
 
-    prompt = llm_prompt_generator(synthesized_prompt, project.background_path)
+    prompt = llm_prompt_generator(synthesized_prompt, creative["bg_file_path"])
 
     return qa_agent(prompt)

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 
-load_dotenv(Path("/Users/nazishansari/Documents/creative's_generator/.env"))
+load_dotenv(Path("/Users/nazish/Documents/creative-s_generator/.env"))
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 

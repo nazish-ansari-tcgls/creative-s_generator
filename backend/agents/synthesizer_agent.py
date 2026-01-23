@@ -1,17 +1,23 @@
 from backend.constants import QUALITY_BOOSTER
 
 def synthesizer_agent(project, creative, strategy, visual, styling, messaging):
+    print(type(project))
+    print(type(creative))
+    print(type(strategy))
+    print(type(visual))
+    print(type(styling))
+    print(type(messaging))
     logo_instruction = ""
     background_instruction = ""
 
-    if project.logo_path:
+    if project.get("brand", {}).get("logo_path"):
         logo_instruction = (
             "Reserve a clean, high-contrast logo-safe area "
             "in the top or bottom corner. "
             "Do not stylize, distort, or recreate the logo."
         )
 
-    if project.background_path:
+    if creative.get("bg_file_path"):
         background_instruction = (
             "Use the provided background image as contextual inspiration, "
             "blending it softly without overpowering and modifying the architecture."
@@ -20,8 +26,8 @@ def synthesizer_agent(project, creative, strategy, visual, styling, messaging):
     return f"""
 A premium Category-A real estate social post image prompt with taking provided image as background image for this poster.
 
-Project: {project.name}, {project.location}
-Developer: {project.developer}
+Project: {project.get("name")}, {project.get("location")}
+Developer: {project.get("developer")}
 
 Creative intent:
 {strategy}
@@ -36,9 +42,7 @@ Branding guidance:
 {logo_instruction}
 
 Text to include:
-Headline: "{messaging['headline']}"
-Subline: "{messaging['subline']}"
-CTA: "{messaging['cta']}"
+Headline: "{messaging}"
 
 Styling:
 {styling['palette']}, {styling['typography']}, {styling['spacing']}.

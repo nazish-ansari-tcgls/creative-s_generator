@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-load_dotenv(Path("/Users/nazishansari/Documents/creative's_generator/.env"))
+load_dotenv(Path("/Users/nazish/Documents/creative-s_generator/.env"))
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
@@ -22,6 +22,17 @@ def generate_creative_image(prompt: str, negative_prompt: str, aspect_ratio: str
     logo_image = types.Part.from_bytes(
     data=logo_image_bytes, mime_type="image/jpeg"
     )
+    
+
+    if  aspect_ratio == "square":
+        aspect_ratio = "1:1"
+    elif aspect_ratio == "portrait":
+        aspect_ratio = "4:5"
+    elif aspect_ratio == "landscape":
+        aspect_ratio = "9:16"
+    elif aspect_ratio == "story":
+        aspect_ratio = "9:16"
+    
 
     resolution = "2K" if aspect_ratio in ["16:9", "9:16"] else "1K"
 
@@ -29,10 +40,10 @@ def generate_creative_image(prompt: str, negative_prompt: str, aspect_ratio: str
         model="gemini-3-pro-image-preview",
         contents=[prompt+"Mandatory** Use both background and logo images for generating poster creative's along with all mentioned specifications", bg_image, logo_image],
         config=types.GenerateContentConfig(
-        response_modalities=['TEXT','IMAGE'],
+        response_modalities=['IMAGE'],
         image_config=types.ImageConfig(
             aspect_ratio=aspect_ratio,
-            resolution=resolution,
+            image_size=resolution,
             ),
         )
     )

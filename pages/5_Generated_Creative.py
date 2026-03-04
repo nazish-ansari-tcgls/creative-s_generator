@@ -8,7 +8,7 @@ from frontend.utils.ui_base import (
 )
 from frontend.ui_creative_details import inject_creative_details_css
 from backend.orchestrator import generate_poster_prompt
-from backend.agents.creative_generation import generate_creative_image
+from backend.agents.creative_generation import generate_creative_image, regenerate_creative_image
 
 
 # ------------------ CONFIG ------------------
@@ -38,17 +38,20 @@ render_section_header("Generated Creative", "✨")
 
 # ------------------ INITIAL PROMPT GENERATION ------------------
 if "final_prompt" not in st.session_state:
-    output = generate_poster_prompt(
+    st.session_state["final_prompt"] = generate_poster_prompt(
         st.session_state["project"],
         st.session_state["creative"],
     )
-
-    st.session_state["final_prompt"] = output["final_prompt"]
-    st.session_state["negative_prompt"] = output["negative_prompt"]
-    st.session_state["generated_image_path"] = None
-
+    print("abcd")
+    print(st.session_state["final_prompt"])
 
 # ------------------ DEFAULT IMAGE GENERATION ------------------
+if "generated_image_path" not in st.session_state:
+    st.session_state["generated_image_path"] = None
+
+if "output" not in st.session_state:
+    st.session_state["output"] = None
+
 if st.session_state["generated_image_path"] is None:
     aspect_ratio = normalize_aspect_ratio(
         st.session_state["creative"].get("formats")
@@ -57,26 +60,54 @@ if st.session_state["generated_image_path"] is None:
     with st.spinner("Generating creative image..."):
         st.session_state["generated_image_path"] = generate_creative_image(
             prompt=st.session_state["final_prompt"],
-            negative_prompt=st.session_state["negative_prompt"],
             aspect_ratio=aspect_ratio,
             background_path=st.session_state["creative"]["bg_file_path"],
             logo_path="assets/logo/Hiranandani-Gardens-Logo.png",
         )
 
+col_img, col_text = st.columns([2, 1])
+# ------------------ RIGHT: TEXT STYLING CONTROLS ------------------
 
-# ------------------ UI LAYOUT ------------------
-col_img, col_text = st.columns([1, 1.3])
-
-
-# ------------------ RIGHT: PROMPT EDITING ------------------
 with col_text:
-    st.subheader("🎯 Edit Final Prompt")
+    st.subheader("🎨 Text Styling")
 
-    st.session_state["final_prompt"] = st.text_area(
-        "Final Prompt",
-        value=st.session_state["final_prompt"],
-        height=450,
+    # ---- Text Colors ----
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.session_state["primary_text_color"] = st.color_picker(
+            "Primary Text Color",
+            value=st.session_state.get("primary_text_color", "#FFFFFF"),
+        )
+
+    with col2:
+        st.session_state["secondary_text_color"] = st.color_picker(
+            "Secondary Text Color",
+            value=st.session_state.get("secondary_text_color", "#FFD700"),
+        )
+
+    # ---- Text Position ----
+    options = [
+        "top-left",
+        "top-center",
+        "top-right",
+        "center",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right",
+    ]
+
+    default_position = st.session_state.get("text_position", "bottom-center")
+    if default_position not in options:
+        default_position = "bottom-center"
+
+    st.session_state["text_position"] = st.selectbox(
+        "Text Position",
+        options=options,
+        index=options.index(default_position)
     )
+
+    st.divider()
 
     regenerate = st.button(
         "🔁 Re-Generate Image",
@@ -91,12 +122,12 @@ if regenerate:
     )
 
     with st.spinner("Re-generating creative image..."):
-        st.session_state["generated_image_path"] = generate_creative_image(
-            prompt=st.session_state["final_prompt"],
-            negative_prompt=st.session_state["negative_prompt"],
+        st.session_state["generated_image_path"] = regenerate_creative_image(
+            text_position=st.session_state["text_position"],
+            primary_text_color=st.session_state["primary_text_color"],
+            secondary_text_color=st.session_state["secondary_text_color"],
             aspect_ratio=aspect_ratio,
-            background_path=st.session_state["creative"]["bg_file_path"],
-            logo_path="assets/logo/Hiranandani-Gardens-Logo.png",
+            background_path=st.session_state["generated_image_path"]
         )
 
 
@@ -108,5 +139,15 @@ with col_img:
             st.session_state["generated_image_path"],
             width="content",
         )
+
+        with open(st.session_state["generated_image_path"], "rb") as f:
+            st.download_button(
+                label="⬇️ Download Image",
+                data=f,
+                file_name="creative.png",
+                mime="image/png",
+                use_container_width=True,
+            )
+            
     else:
         st.warning("Image generation failed.")

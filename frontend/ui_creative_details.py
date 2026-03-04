@@ -91,7 +91,6 @@ def inject_creative_details_css():
 
 
 /* ===== Format cards ===== */
-/* ===== Format cards (exactly like screenshot) ===== */
 .format-grid {{
   display:grid;
   grid-template-columns: repeat(4, 1fr);

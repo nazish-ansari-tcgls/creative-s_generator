@@ -27,7 +27,7 @@ def category_messaging_agent(project_info: str, category: str) -> str:
     Give a suitable headline in one sentence for this {category}.
     Do consider the project Information: {json.dumps(project_info)} 
     and poster categories : {', '.join(categories_info.keys())} to' give best headline.
-    Your response should be concise and catchy.'''
+    Your response should be concise and catchy. And it should be one sentence only.'''
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",
